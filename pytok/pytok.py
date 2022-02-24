@@ -1,6 +1,4 @@
 from json import dump
-from types import NoneType
-from typing import Dict, List, Tuple, Union
 from pinyintools import tokenize
 from unihan_etl.process import Packager
 
@@ -15,7 +13,7 @@ OPTIONS = {
 }
 
 
-def process(char: dict) -> List[Dict[str, Union[str | Union[Tuple[str, str, int] | NoneType]]]]:
+def process(char: dict) -> list[tuple[str, str, int] | None]:
     readings = []
     if 'kHanyuPinyin' in char:
         readings += [r for r in char['kHanyuPinyin'][0]['readings']]
@@ -23,15 +21,15 @@ def process(char: dict) -> List[Dict[str, Union[str | Union[Tuple[str, str, int]
             readings.append(char['kMandarin']['zh-Hans'])
     else:
         readings.append(char['kMandarin']['zh-Hans'])
-    return [{'char': char['char'], 'pinyin': tokenize(r)} for r in readings]
+    return [tokenize(r) for r in readings]
 
 
 def main() -> None:
-    tokenized = []
+    tokenized = {}
     p = Packager(OPTIONS)
     p.download()
     for c in p.export():
-        tokenized += process(c)
+        tokenized[c['char']] = process(c)
     with open(FILENAME, 'w', encoding='utf-8') as fp:
         dump(tokenized, fp, ensure_ascii=False)
 
