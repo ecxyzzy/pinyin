@@ -35,3 +35,10 @@ def tokenize_char(pinyin: str) -> tuple[str, str, int] | None:
             initial = pinyin.rstrip(f)
             break
     return (initial, final, tone) if final else None
+
+
+def tokenize_phrase(pinyin_lst: list[str]) -> list[tuple[str, str, int] | None]:
+    """
+    Given a list of strings of pinyin representations, return a list of 3-tuples or ``None``, same as ``tokenize_char``.
+    """
+    return [tokenize_char(i) for i in pinyin_lst]
