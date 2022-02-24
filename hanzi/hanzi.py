@@ -3,7 +3,7 @@ from pinyintools import tokenize
 from unihan_etl.process import Packager
 
 # import/export options
-FILENAME = './pytok.json'
+FILENAME = 'hanzi.json'
 OPTIONS = {
     'zip_path': './unihan.zip',
     'work_dir': './unihan/',
