@@ -1,5 +1,5 @@
 from json import dump
-from pinyintools import tokenize
+from pinyintools import tokenize_char
 from unihan_etl.process import Packager
 
 # import/export options
@@ -21,7 +21,7 @@ def process(char: dict) -> list[tuple[str, str, int] | None]:
             readings.append(char['kMandarin']['zh-Hans'])
     else:
         readings.append(char['kMandarin']['zh-Hans'])
-    return [tokenize(r) for r in readings]
+    return [tokenize_char(r) for r in readings]
 
 
 def main() -> None:

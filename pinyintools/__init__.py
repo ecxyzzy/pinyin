@@ -17,7 +17,7 @@ __TONED_VOWELS = {
 }
 
 
-def tokenize(pinyin: str) -> tuple[str, str, int] | None:
+def tokenize_char(pinyin: str) -> tuple[str, str, int] | None:
     """
     Given a string containing the pinyin representation of a Chinese character, return a 3-tuple containing its
     initial (``str``), final (``str``), and tone (``int; [0-4]``), or ``None`` if it cannot be properly tokenized.
