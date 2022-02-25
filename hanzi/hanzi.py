@@ -29,7 +29,12 @@ def main() -> None:
     p = Packager(OPTIONS)
     p.download()
     for c in p.export():
-        tokenized[c['char']] = process(c)
+        r = process(c)
+        if all(i is None for i in r):
+            r = None
+        else:
+            r = [i for i in r if i is not None]
+        tokenized[c['char']] = r
     with open(FILENAME, 'w', encoding='utf-8') as fp:
         dump(tokenized, fp, ensure_ascii=False)
 
