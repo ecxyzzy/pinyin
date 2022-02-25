@@ -1,9 +1,12 @@
+import re as __re
+
 # Mandarin finals, sorted in descending order of length and ascending alphabetical order within the same length
 __FINALS = [
-    'iang', 'iong',
-    'ang', 'eng', 'ian', 'iao', 'ing', 'ong', 'uai', 'uan',
-    'ai', 'an', 'ao', 'ei', 'en', 'er', 'ia', 'ie', 'in', 'iu', 'ou', 'ua', 'ui', 'un', 'uo', 'üe',
-    'a', 'e', 'i', 'o', 'u', 'ü'
+    r'iang$', r'iong$',
+    r'ang$', r'eng$', r'ian$', r'iao$', r'ing$', r'ong$', r'uai$', r'uan$',
+    r'ai$', r'an$', r'ao$', r'ei$', r'en$', r'er$', r'ia$', r'ie$',
+    r'in$', r'iu$', r'ou$', r'ua$', r'ui$', r'un$', r'uo$', r'üe$',
+    r'a$', r'e$', r'i$', r'o$', r'u$', r'ü$'
 ]
 
 # Mandarin vowel data, mapped to the raw vowel and the tone number
@@ -30,9 +33,9 @@ def tokenize_char(pinyin: str) -> tuple[str, str, int] | None:
             pinyin = pinyin.replace(i, __TONED_VOWELS[i][0])
             break
     for f in __FINALS:
-        if f in pinyin:
-            final = f
-            initial = pinyin.rstrip(f)
+        if (s := __re.search(f, pinyin)) is not None:
+            final = s[0]
+            initial = __re.sub(f, '', pinyin)
             break
     return (initial, final, tone) if final else None
 
