@@ -1,5 +1,3 @@
-import re as __re
-
 # Mandarin finals, sorted in descending order of length and ascending alphabetical order within the same length
 __FINALS = [
     r'iang$', r'iong$',
@@ -25,6 +23,7 @@ def tokenize_char(pinyin: str) -> tuple[str, str, int] | None:
     Given a string containing the pinyin representation of a Chinese character, return a 3-tuple containing its
     initial (``str``), final (``str``), and tone (``int; [0-4]``), or ``None`` if it cannot be properly tokenized.
     """
+    import re
     initial = final = ''
     tone = 0
     for i in pinyin:
@@ -33,9 +32,9 @@ def tokenize_char(pinyin: str) -> tuple[str, str, int] | None:
             pinyin = pinyin.replace(i, __TONED_VOWELS[i][0])
             break
     for f in __FINALS:
-        if (s := __re.search(f, pinyin)) is not None:
+        if (s := re.search(f, pinyin)) is not None:
             final = s[0]
-            initial = __re.sub(f, '', pinyin)
+            initial = re.sub(f, '', pinyin)
             break
     return (initial, final, tone) if final else None
 
